@@ -167,6 +167,10 @@ function App() {
                 About Us
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
               </a>
+              <a href="#how-it-works" className={`${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:scale-105 relative group`}>
+                How It Works
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
+              </a>
               <a href="#ai-tools" className={`${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:scale-105 relative group`}>
                 AI Tools
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
@@ -204,6 +208,7 @@ function App() {
           <div className={`md:hidden ${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border-t transition-all duration-300 animate-slide-down`}>
             <div className="px-4 py-4 space-y-4">
               <a href="#about" className={`block ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:translate-x-2 hover:scale-105`}>About Us</a>
+              <a href="#how-it-works" className={`block ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:translate-x-2 hover:scale-105`}>How It Works</a>
               <a href="#ai-tools" className={`block ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:translate-x-2 hover:scale-105`}>AI Tools</a>
               <a href="#why-choose-us" className={`block ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:translate-x-2 hover:scale-105`}>Why Choose Us?</a>
               <a href="#testimonials" className={`block ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:translate-x-2 hover:scale-105`}>Testimonials</a>
@@ -313,7 +318,7 @@ function App() {
       </section>
 
       {/* How It Works Section with Visual Illustrations */}
-      <section className={`h-screen flex items-center ${isDarkMode ? 'bg-gradient-to-b from-gray-800 to-gray-700' : 'bg-gradient-to-b from-gray-100 to-white'} transition-colors duration-300`}>
+      <section id="how-it-works" className={`h-screen flex items-center ${isDarkMode ? 'bg-gradient-to-b from-gray-800 to-gray-700' : 'bg-gradient-to-b from-gray-100 to-white'} transition-colors duration-300`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 scroll-animate">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
