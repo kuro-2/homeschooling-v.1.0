@@ -235,7 +235,7 @@ function App() {
         <div className={`absolute inset-0 ${
           isDarkMode 
             ? 'bg-[url("https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600")] bg-cover bg-center opacity-10' 
-            : 'bg-[url("https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600")] bg-cover bg-center opacity-10'
+            : 'bg-[url("https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600")] bg-cover bg-center opacity-20'
         } hover:scale-105 transition-transform duration-700`}></div>
         
         {/* Geometric shapes for visual interest in light mode */}
