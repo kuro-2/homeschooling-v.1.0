@@ -3,6 +3,58 @@
 @tailwind utilities;
 
 /* Custom Animations */
+
+/* Enhanced scroll-triggered animations for different card types */
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-10deg) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @keyframes slideInFromLeft {
   from {
     opacity: 0;
@@ -77,6 +129,88 @@
 }
 
 /* Animation Classes */
+
+/* Navigation Button Styling - Theme Responsive */
+.nav-get-started-btn {
+  color: white !important;
+  text-decoration: none;
+}
+
+.nav-get-started-btn:hover,
+.nav-get-started-btn:focus,
+.nav-get-started-btn:active,
+.nav-get-started-btn:visited {
+  color: white !important;
+}
+
+/* Hero Section Optimizations */
+.hero-background {
+  backdrop-filter: blur(1px);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 20;
+}
+
+.hero-description {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.geometric-shape {
+  will-change: transform;
+}
+
+.hero-demo-btn {
+  backdrop-filter: blur(8px);
+}
+
+/* Card-specific scroll animations */
+.scroll-animate-card {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scroll-animate-card.animate-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.scroll-animate-step {
+  opacity: 0;
+  transform: translateY(30px) rotate(-5deg);
+  transition: all 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scroll-animate-step.animate-in {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+}
+
+.scroll-animate-tool {
+  opacity: 0;
+  transform: translateX(-40px) rotateY(15deg);
+  transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.scroll-animate-tool.animate-in {
+  opacity: 1;
+  transform: translateX(0) rotateY(0deg);
+}
+
+.scroll-animate-testimonial {
+  opacity: 0;
+  transform: translateY(50px) scale(0.9);
+  transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.scroll-animate-testimonial.animate-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Base scroll animation */
 .scroll-animate {
   opacity: 0;
   transform: translateY(30px);
@@ -94,6 +228,11 @@
 
 .scroll-animate:nth-child(even).animate-in {
   transform: translateX(0);
+}
+
+/* Enhanced feature cards */
+.feature-card {
+  will-change: transform, opacity;
 }
 
 .animate-fade-in-up {
@@ -123,6 +262,27 @@
 
 .animate-scale-in {
   animation: scaleIn 0.6s ease-out forwards;
+}
+
+.animate-slide-in-bottom {
+  animation: slideInFromBottom 0.8s ease-out forwards;
+}
+
+.animate-slide-in-top {
+  animation: slideInFromTop 0.6s ease-out forwards;
+}
+
+.animate-rotate-in {
+  animation: rotateIn 0.8s ease-out forwards;
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.8s ease-out forwards;
+}
+
+/* Statistics numbers animation */
+.stat-number {
+  will-change: transform;
 }
 
 /* Animation Delays */
@@ -166,6 +326,22 @@
   animation-delay: 1000ms;
 }
 
+.animation-delay-1100 {
+  animation-delay: 1100ms;
+}
+
+.animation-delay-1200 {
+  animation-delay: 1200ms;
+}
+
+.animation-delay-1300 {
+  animation-delay: 1300ms;
+}
+
+.animation-delay-1400 {
+  animation-delay: 1400ms;
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
@@ -194,11 +370,21 @@ html {
   --scrollbar-track: #f3f4f6;
 }
 
+/* Theme-specific button styling */
+.cta-demo-btn {
+  backdrop-filter: blur(8px);
+}
+
 /* Responsive utilities */
 @media (max-width: 640px) {
   .text-responsive {
     font-size: clamp(1rem, 4vw, 1.5rem);
   }
+}
+
+/* Enhanced card styling */
+.ai-tool-card, .testimonial-card {
+  will-change: transform, box-shadow;
 }
 
 /* Focus states for accessibility */
@@ -250,16 +436,38 @@ html {
 
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
-  .scroll-animate,
+  .scroll-animate, 
+  .scroll-animate-card,
+  .scroll-animate-step,
+  .scroll-animate-tool,
+  .scroll-animate-testimonial,
   .animate-fade-in-up,
   .animate-float,
-  .animate-pulse-slow {
+  .animate-pulse-slow,
+  .animate-slide-in-bottom,
+  .animate-slide-in-top,
+  .animate-rotate-in,
+  .animate-bounce-in {
     animation: none;
     transition: none;
   }
   
-  .scroll-animate {
+  .scroll-animate,
+  .scroll-animate-card,
+  .scroll-animate-step,
+  .scroll-animate-tool,
+  .scroll-animate-testimonial {
     opacity: 1;
     transform: none;
   }
+}
+
+/* Performance optimizations */
+.geometric-shape,
+.feature-card,
+.ai-tool-card,
+.testimonial-card,
+.stat-number {
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
