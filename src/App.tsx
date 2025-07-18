@@ -228,14 +228,14 @@ function App() {
         <div className={`absolute inset-0 ${
           isDarkMode 
             ? 'bg-gradient-to-br from-purple-900/20 via-gray-900 to-blue-900/20' 
-            : 'bg-gradient-to-br from-blue-50/80 via-white to-purple-50/80'
+            : 'bg-gradient-to-br from-blue-50/30 via-white/40 to-purple-50/30'
         } transition-all duration-500`}></div>
         
         {/* Subtle pattern overlay for light mode */}
         <div className={`absolute inset-0 ${
           isDarkMode 
             ? 'bg-[url("https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600")] bg-cover bg-center opacity-10' 
-            : 'bg-gradient-to-br from-indigo-100/30 via-transparent to-purple-100/30'
+            : 'bg-[url("https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600")] bg-cover bg-center opacity-20'
         } hover:scale-105 transition-transform duration-700`}></div>
         
         {/* Geometric shapes for visual interest in light mode */}
