@@ -67,7 +67,7 @@ function App() {
     {
       title: "Syllabus AI",
       description: "Creates comprehensive curricula tailored to your student's grade level, learning objectives, and interests.",
-      image: "public/image copy copy copy.png",
+      image: "/public/image1.png",
       features: [
         "Grade-appropriate content",
         "Subject integration",
@@ -78,7 +78,7 @@ function App() {
     {
       title: "Planning AI",
       description: "Intelligent scheduling and lesson planning that adapts to your family's pace and learning goals.",
-      image: "public/image copy copy.png",
+      image: "/public/image2.png",
       features: [
         "Adaptive scheduling",
         "Optimal learning paths",
@@ -89,7 +89,7 @@ function App() {
     {
       title: "Personalize AI",
       description: "Customizes content delivery and learning experiences to match each student's unique learning style.",
-      image: "public/image copy.png",
+      image: "/public/image3.png",
       features: [
         "Learning style adaptation",
         "Interest-based content",
