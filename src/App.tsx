@@ -313,12 +313,11 @@ function App() {
       </section>
 
       {/* How It Works Section with Visual Illustrations */}
-      <section className={`py-20 ${isDarkMode ? 'bg-gradient-to-b from-gray-800 to-gray-700' : 'bg-gradient-to-b from-gray-100 to-white'} transition-colors duration-300`}>
+      <section className={`h-screen flex items-center ${isDarkMode ? 'bg-gradient-to-b from-gray-800 to-gray-700' : 'bg-gradient-to-b from-gray-100 to-white'} transition-colors duration-300`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 scroll-animate">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>How It</span>
-              <br />
+              <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>How It </span>
               <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Works
               </span>
