@@ -235,7 +235,7 @@ function App() {
         <div className={`absolute inset-0 ${
           isDarkMode 
             ? 'bg-[url("https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600")] bg-cover bg-center opacity-10' 
-            : 'bg-[url("https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600")] bg-cover bg-center opacity-20'
+            : 'bg-[url("https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600")] bg-cover bg-center opacity-30'
         } hover:scale-105 transition-transform duration-700`}></div>
         
         {/* Geometric shapes for visual interest in light mode */}
@@ -441,7 +441,7 @@ function App() {
             {aiTools.map((tool, index) => (
               <div key={index} className={`${isDarkMode ? 'bg-gray-800/50 border-gray-700 hover:border-gray-600' : 'bg-white/70 border-gray-200 hover:border-gray-300'} backdrop-blur-sm rounded-xl overflow-hidden border transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:-translate-y-3 group scroll-animate`} style={{animationDelay: `${index * 150}ms`}}>
                 <div className="relative overflow-hidden">
-                  <div className={`absolute inset-0 bg-gradient-to-r ${tool.gradient} opacity-20`}></div>
+                  <div className={`absolute inset-0 bg-gradient-to-r ${tool.gradient} opacity-30`}></div>
                   <img 
                     src={tool.image} 
                     alt={tool.title}
