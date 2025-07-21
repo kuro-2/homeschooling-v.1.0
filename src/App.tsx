@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, ArrowRight, Users, BookOpen, Calendar, Sparkles, Star, ChevronRight, Brain, Target, BarChart3, Library, Clock, TrendingUp, Eye, Zap, Sun, Moon, UserPlus, FileText, Settings, Wand2 } from 'lucide-react';
+import { Menu, X, ArrowRight, Users, BookOpen, Calendar, Sparkles, Star, ChevronRight, Brain, Target, BarChart3, Library, Clock, TrendingUp, Eye, Zap, Sun, Moon, UserPlus, FileText, Settings, Wand2, Award, PieChart, Activity, Plus, MessageCircle, Download, CheckCircle } from 'lucide-react';
 
 // Custom hook for scroll-triggered animations
 const useScrollAnimation = () => {
@@ -313,6 +313,552 @@ function App() {
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Student Dashboard Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Student Dashboard
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Comprehensive insights and analytics to track your student's educational journey
+            </p>
+          </div>
+
+          {/* Key Metrics Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {[
+              { title: "Total Syllabi", value: "12", icon: BookOpen, color: "blue", change: "+2 this month" },
+              { title: "Learning Assets", value: "248", icon: FileText, color: "green", change: "+15 this week" },
+              { title: "Current GPA", value: "3.8", icon: Award, color: "purple", change: "+0.2 this term" },
+              { title: "Engagement", value: "87%", icon: TrendingUp, color: "teal", change: "+5% this week" }
+            ].map((metric, index) => (
+              <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div className="flex items-center justify-between mb-4">
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                    metric.color === 'blue' ? 'bg-blue-100 text-blue-600' :
+                    metric.color === 'green' ? 'bg-green-100 text-green-600' :
+                    metric.color === 'purple' ? 'bg-purple-100 text-purple-600' :
+                    'bg-teal-100 text-teal-600'
+                  }`}>
+                    <metric.icon className="w-6 h-6" />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-1">{metric.value}</h3>
+                <p className="text-sm text-gray-600 mb-2">{metric.title}</p>
+                <p className={`text-xs font-medium ${
+                  metric.color === 'blue' ? 'text-blue-600' :
+                  metric.color === 'green' ? 'text-green-600' :
+                  metric.color === 'purple' ? 'text-purple-600' :
+                  'text-teal-600'
+                }`}>{metric.change}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Charts Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            {/* Subject Distribution Chart */}
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <PieChart className="w-5 h-5 mr-2 text-blue-600" />
+                Subject Distribution
+              </h3>
+              <div className="space-y-4">
+                {[
+                  { subject: "Mathematics", percentage: 25, color: "bg-blue-500" },
+                  { subject: "Science", percentage: 20, color: "bg-green-500" },
+                  { subject: "Language Arts", percentage: 20, color: "bg-purple-500" },
+                  { subject: "History", percentage: 15, color: "bg-yellow-500" },
+                  { subject: "Arts", percentage: 12, color: "bg-pink-500" },
+                  { subject: "Other", percentage: 8, color: "bg-gray-500" }
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center">
+                    <div className="w-24 text-sm text-gray-600">{item.subject}</div>
+                    <div className="flex-1 mx-4">
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className={`h-2 rounded-full ${item.color}`}
+                          style={{ width: `${item.percentage}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="w-12 text-sm font-medium text-gray-900">{item.percentage}%</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Learning Plan Progress */}
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <BarChart3 className="w-5 h-5 mr-2 text-green-600" />
+                Learning Plan Progress
+              </h3>
+              <div className="space-y-4">
+                {[
+                  { plan: "Algebra Fundamentals", progress: 85, status: "On Track" },
+                  { plan: "Biology Basics", progress: 72, status: "Ahead" },
+                  { plan: "Creative Writing", progress: 60, status: "On Track" },
+                  { plan: "World History", progress: 45, status: "Behind" },
+                  { plan: "Art Appreciation", progress: 90, status: "Complete" }
+                ].map((item, index) => (
+                  <div key={index} className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-gray-900">{item.plan}</span>
+                      <span className={`text-xs px-2 py-1 rounded-full ${
+                        item.status === 'Complete' ? 'bg-green-100 text-green-800' :
+                        item.status === 'Ahead' ? 'bg-blue-100 text-blue-800' :
+                        item.status === 'On Track' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>{item.status}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className={`h-2 rounded-full transition-all duration-500 ${
+                          item.progress >= 90 ? 'bg-green-500' :
+                          item.progress >= 70 ? 'bg-blue-500' :
+                          item.progress >= 50 ? 'bg-yellow-500' :
+                          'bg-red-500'
+                        }`}
+                        style={{ width: `${item.progress}%` }}
+                      ></div>
+                    </div>
+                    <div className="text-xs text-gray-500">{item.progress}% Complete</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Performance and Engagement Charts */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Performance Trends */}
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <TrendingUp className="w-5 h-5 mr-2 text-purple-600" />
+                Performance Trends
+              </h3>
+              <div className="space-y-4">
+                {[
+                  { month: "Jan", score: 78 },
+                  { month: "Feb", score: 82 },
+                  { month: "Mar", score: 85 },
+                  { month: "Apr", score: 88 },
+                  { month: "May", score: 91 }
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">{item.month}</span>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-20 bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="h-2 bg-purple-500 rounded-full"
+                          style={{ width: `${item.score}%` }}
+                        ></div>
+                      </div>
+                      <span className="text-sm font-medium text-gray-900 w-8">{item.score}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Student Performance */}
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Award className="w-5 h-5 mr-2 text-yellow-600" />
+                Student Performance
+              </h3>
+              <div className="space-y-4">
+                {[
+                  { category: "Assignments", score: 92, grade: "A-" },
+                  { category: "Quizzes", score: 88, grade: "B+" },
+                  { category: "Projects", score: 95, grade: "A" },
+                  { category: "Participation", score: 87, grade: "B+" },
+                  { category: "Overall", score: 90, grade: "A-" }
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">{item.category}</span>
+                    <div className="flex items-center space-x-3">
+                      <span className="text-sm font-medium text-gray-900">{item.score}%</span>
+                      <span className={`text-sm font-bold px-2 py-1 rounded ${
+                        item.grade.startsWith('A') ? 'bg-green-100 text-green-800' :
+                        item.grade.startsWith('B') ? 'bg-blue-100 text-blue-800' :
+                        'bg-yellow-100 text-yellow-800'
+                      }`}>{item.grade}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Engagement Metrics */}
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Activity className="w-5 h-5 mr-2 text-teal-600" />
+                Engagement Metrics
+              </h3>
+              <div className="space-y-4">
+                {[
+                  { metric: "Daily Login", value: "95%", trend: "up" },
+                  { metric: "Time on Task", value: "4.2h", trend: "up" },
+                  { metric: "Completion Rate", value: "89%", trend: "stable" },
+                  { metric: "Discussion Posts", value: "12", trend: "up" },
+                  { metric: "Help Requests", value: "3", trend: "down" }
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">{item.metric}</span>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm font-medium text-gray-900">{item.value}</span>
+                      <div className={`w-2 h-2 rounded-full ${
+                        item.trend === 'up' ? 'bg-green-500' :
+                        item.trend === 'down' ? 'bg-red-500' :
+                        'bg-yellow-500'
+                      }`}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="mt-12 bg-white rounded-xl p-6 shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+              {[
+                { action: "Add Assignment", icon: Plus, color: "blue" },
+                { action: "Schedule Test", icon: Calendar, color: "green" },
+                { action: "View Reports", icon: FileText, color: "purple" },
+                { action: "Message Student", icon: MessageCircle, color: "teal" },
+                { action: "Update Goals", icon: Target, color: "orange" },
+                { action: "Export Data", icon: Download, color: "gray" }
+              ].map((item, index) => (
+                <button key={index} className={`p-4 rounded-lg border-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
+                  item.color === 'blue' ? 'border-blue-200 bg-blue-50 hover:border-blue-400 text-blue-700' :
+                  item.color === 'green' ? 'border-green-200 bg-green-50 hover:border-green-400 text-green-700' :
+                  item.color === 'purple' ? 'border-purple-200 bg-purple-50 hover:border-purple-400 text-purple-700' :
+                  item.color === 'teal' ? 'border-teal-200 bg-teal-50 hover:border-teal-400 text-teal-700' :
+                  item.color === 'orange' ? 'border-orange-200 bg-orange-50 hover:border-orange-400 text-orange-700' :
+                  'border-gray-200 bg-gray-50 hover:border-gray-400 text-gray-700'
+                }`}>
+                  <item.icon className="w-6 h-6 mx-auto mb-2" />
+                  <span className="text-xs font-medium">{item.action}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Recent Activity Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+              Recent Activity
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Stay updated with your student's latest achievements and activities
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Recent Achievements */}
+            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Award className="w-5 h-5 mr-2 text-green-600" />
+                Recent Achievements
+              </h3>
+              <div className="space-y-4">
+                {[
+                  { achievement: "Completed Algebra Chapter 5", date: "2 hours ago", type: "completion" },
+                  { achievement: "Scored 95% on Biology Quiz", date: "1 day ago", type: "score" },
+                  { achievement: "Submitted Creative Writing Essay", date: "2 days ago", type: "submission" },
+                  { achievement: "Perfect Attendance This Week", date: "3 days ago", type: "attendance" }
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center space-x-4 p-3 bg-white rounded-lg">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                      item.type === 'completion' ? 'bg-blue-100 text-blue-600' :
+                      item.type === 'score' ? 'bg-green-100 text-green-600' :
+                      item.type === 'submission' ? 'bg-purple-100 text-purple-600' :
+                      'bg-yellow-100 text-yellow-600'
+                    }`}>
+                      {item.type === 'completion' ? <CheckCircle className="w-4 h-4" /> :
+                       item.type === 'score' ? <Star className="w-4 h-4" /> :
+                       item.type === 'submission' ? <FileText className="w-4 h-4" /> :
+                       <Calendar className="w-4 h-4" />}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-gray-900">{item.achievement}</p>
+                      <p className="text-xs text-gray-500">{item.date}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Upcoming Tasks */}
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Clock className="w-5 h-5 mr-2 text-blue-600" />
+                Upcoming Tasks
+              </h3>
+              <div className="space-y-4">
+                {[
+                  { task: "Math Quiz - Quadratic Equations", due: "Tomorrow", priority: "high" },
+                  { task: "Science Lab Report", due: "In 3 days", priority: "medium" },
+                  { task: "History Essay Draft", due: "Next week", priority: "low" },
+                  { task: "Art Project Presentation", due: "In 10 days", priority: "medium" }
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center space-x-4 p-3 bg-white rounded-lg">
+                    <div className={`w-3 h-3 rounded-full ${
+                      item.priority === 'high' ? 'bg-red-500' :
+                      item.priority === 'medium' ? 'bg-yellow-500' :
+                      'bg-green-500'
+                    }`}></div>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-gray-900">{item.task}</p>
+                      <p className="text-xs text-gray-500">Due: {item.due}</p>
+                    </div>
+                    <span className={`text-xs px-2 py-1 rounded-full ${
+                      item.priority === 'high' ? 'bg-red-100 text-red-800' :
+                      item.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-green-100 text-green-800'
+                    }`}>
+                      {item.priority}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Additional Dashboard Widgets */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Study Time Analytics */}
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Clock className="w-5 h-5 mr-2 text-indigo-600" />
+                Study Time Analytics
+              </h3>
+              <div className="text-center mb-6">
+                <div className="text-3xl font-bold text-indigo-600">4.2</div>
+                <div className="text-sm text-gray-500">Hours Today</div>
+              </div>
+              <div className="space-y-3">
+                {[
+                  { day: "Mon", hours: 3.5 },
+                  { day: "Tue", hours: 4.2 },
+                  { day: "Wed", hours: 3.8 },
+                  { day: "Thu", hours: 4.5 },
+                  { day: "Fri", hours: 4.2 },
+                  { day: "Sat", hours: 2.1 },
+                  { day: "Sun", hours: 1.8 }
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">{item.day}</span>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-16 bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="h-2 bg-indigo-500 rounded-full"
+                          style={{ width: `${(item.hours / 5) * 100}%` }}
+                        ></div>
+                      </div>
+                      <span className="text-sm font-medium text-gray-900 w-8">{item.hours}h</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Learning Streaks */}
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Zap className="w-5 h-5 mr-2 text-orange-600" />
+                Learning Streaks
+              </h3>
+              <div className="space-y-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-orange-600 mb-2">15</div>
+                  <div className="text-sm text-gray-500">Day Streak</div>
+                  <div className="text-xs text-gray-400">Keep it up!</div>
+                </div>
+                <div className="grid grid-cols-7 gap-1">
+                  {Array.from({ length: 21 }, (_, i) => (
+                    <div key={i} className={`w-6 h-6 rounded ${
+                      i < 15 ? 'bg-orange-500' : 'bg-gray-200'
+                    }`}></div>
+                  ))}
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Best Streak</span>
+                    <span className="text-sm font-medium text-gray-900">23 days</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">This Month</span>
+                    <span className="text-sm font-medium text-gray-900">28/30 days</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Goals & Milestones */}
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Target className="w-5 h-5 mr-2 text-pink-600" />
+                Goals & Milestones
+              </h3>
+              <div className="space-y-4">
+                {[
+                  { goal: "Complete Algebra Course", progress: 75, target: "End of Term" },
+                  { goal: "Read 20 Books", progress: 60, target: "This Year" },
+                  { goal: "Science Fair Project", progress: 40, target: "Next Month" },
+                  { goal: "Improve Writing Skills", progress: 85, target: "Ongoing" }
+                ].map((item, index) => (
+                  <div key={index} className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-gray-900">{item.goal}</span>
+                      <span className="text-xs text-gray-500">{item.progress}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className="h-2 bg-pink-500 rounded-full transition-all duration-500"
+                        style={{ width: `${item.progress}%` }}
+                      ></div>
+                    </div>
+                    <div className="text-xs text-gray-400">Target: {item.target}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Parent/Educator Insights */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+              Educator Insights
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              AI-powered recommendations and insights to optimize your student's learning experience
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* AI Recommendations */}
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Brain className="w-5 h-5 mr-2 text-purple-600" />
+                AI Recommendations
+              </h3>
+              <div className="space-y-4">
+                {[
+                  {
+                    type: "Focus Area",
+                    recommendation: "Consider additional practice in algebraic word problems",
+                    confidence: "High",
+                    action: "View Resources"
+                  },
+                  {
+                    type: "Learning Style",
+                    recommendation: "Student responds well to visual learning materials",
+                    confidence: "Medium",
+                    action: "Adjust Content"
+                  },
+                  {
+                    type: "Schedule",
+                    recommendation: "Peak learning time appears to be 10-11 AM",
+                    confidence: "High",
+                    action: "Optimize Schedule"
+                  },
+                  {
+                    type: "Engagement",
+                    recommendation: "Interactive science experiments boost engagement by 40%",
+                    confidence: "High",
+                    action: "Add Activities"
+                  }
+                ].map((item, index) => (
+                  <div key={index} className="bg-white rounded-lg p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <span className="text-xs font-medium text-purple-600 bg-purple-100 px-2 py-1 rounded">
+                        {item.type}
+                      </span>
+                      <span className={`text-xs px-2 py-1 rounded ${
+                        item.confidence === 'High' ? 'bg-green-100 text-green-800' :
+                        'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {item.confidence} Confidence
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-700 mb-3">{item.recommendation}</p>
+                    <button className="text-xs text-purple-600 hover:text-purple-800 font-medium">
+                      {item.action} →
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Learning Analytics */}
+            <div className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <BarChart3 className="w-5 h-5 mr-2 text-teal-600" />
+                Learning Analytics
+              </h3>
+              <div className="space-y-6">
+                <div className="bg-white rounded-lg p-4">
+                  <h4 className="text-sm font-medium text-gray-900 mb-3">Comprehension Rate</h4>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-1">
+                      <div className="w-full bg-gray-200 rounded-full h-3">
+                        <div className="h-3 bg-teal-500 rounded-full" style={{ width: '87%' }}></div>
+                      </div>
+                    </div>
+                    <span className="text-sm font-bold text-teal-600">87%</span>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">Above average for grade level</p>
+                </div>
+
+                <div className="bg-white rounded-lg p-4">
+                  <h4 className="text-sm font-medium text-gray-900 mb-3">Retention Score</h4>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-1">
+                      <div className="w-full bg-gray-200 rounded-full h-3">
+                        <div className="h-3 bg-blue-500 rounded-full" style={{ width: '92%' }}></div>
+                      </div>
+                    </div>
+                    <span className="text-sm font-bold text-blue-600">92%</span>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">Excellent long-term retention</p>
+                </div>
+
+                <div className="bg-white rounded-lg p-4">
+                  <h4 className="text-sm font-medium text-gray-900 mb-3">Problem Solving</h4>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-1">
+                      <div className="w-full bg-gray-200 rounded-full h-3">
+                        <div className="h-3 bg-purple-500 rounded-full" style={{ width: '78%' }}></div>
+                      </div>
+                    </div>
+                    <span className="text-sm font-bold text-purple-600">78%</span>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">Room for improvement</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
