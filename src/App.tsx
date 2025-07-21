@@ -318,26 +318,32 @@ function App() {
       </section>
 
       {/* Student Dashboard Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800"></div>
+        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-xl animate-float"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-br from-blue-400/20 to-teal-400/20 rounded-full blur-xl animate-float animation-delay-500"></div>
+        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-br from-green-400/20 to-blue-400/20 rounded-full blur-xl animate-pulse-slow"></div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <div className="text-center mb-12 relative z-10">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
               Student Dashboard
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
               Comprehensive insights and analytics to track your student's educational journey
             </p>
           </div>
 
           {/* Key Metrics Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 relative z-10">
             {[
               { title: "Total Syllabi", value: "12", icon: BookOpen, color: "blue", change: "+2 this month" },
               { title: "Learning Assets", value: "248", icon: FileText, color: "green", change: "+15 this week" },
               { title: "Current GPA", value: "3.8", icon: Award, color: "purple", change: "+0.2 this term" },
               { title: "Engagement", value: "87%", icon: TrendingUp, color: "teal", change: "+5% this week" }
             ].map((metric, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-700">
                 <div className="flex items-center justify-between mb-4">
                   <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
                     metric.color === 'blue' ? 'bg-blue-100 text-blue-600' :
@@ -348,23 +354,23 @@ function App() {
                     <metric.icon className="w-6 h-6" />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-1">{metric.value}</h3>
-                <p className="text-sm text-gray-600 mb-2">{metric.title}</p>
+                <h3 className="text-2xl font-bold text-white mb-1">{metric.value}</h3>
+                <p className="text-sm text-gray-300 mb-2">{metric.title}</p>
                 <p className={`text-xs font-medium ${
-                  metric.color === 'blue' ? 'text-blue-600' :
-                  metric.color === 'green' ? 'text-green-600' :
-                  metric.color === 'purple' ? 'text-purple-600' :
-                  'text-teal-600'
+                  metric.color === 'blue' ? 'text-blue-400' :
+                  metric.color === 'green' ? 'text-green-400' :
+                  metric.color === 'purple' ? 'text-purple-400' :
+                  'text-teal-400'
                 }`}>{metric.change}</p>
               </div>
             ))}
           </div>
 
           {/* Charts Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 relative z-10">
             {/* Subject Distribution Chart */}
-            <div className="bg-white rounded-xl p-6 shadow-lg">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700">
+              <h3 className="text-xl font-semibold text-white mb-6 flex items-center">
                 <PieChart className="w-5 h-5 mr-2 text-blue-600" />
                 Subject Distribution
               </h3>
@@ -378,24 +384,24 @@ function App() {
                   { subject: "Other", percentage: 8, color: "bg-gray-500" }
                 ].map((item, index) => (
                   <div key={index} className="flex items-center">
-                    <div className="w-24 text-sm text-gray-600">{item.subject}</div>
+                    <div className="w-24 text-sm text-gray-300">{item.subject}</div>
                     <div className="flex-1 mx-4">
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
                           className={`h-2 rounded-full ${item.color}`}
                           style={{ width: `${item.percentage}%` }}
                         ></div>
                       </div>
                     </div>
-                    <div className="w-12 text-sm font-medium text-gray-900">{item.percentage}%</div>
+                    <div className="w-12 text-sm font-medium text-white">{item.percentage}%</div>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Learning Plan Progress */}
-            <div className="bg-white rounded-xl p-6 shadow-lg">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700">
+              <h3 className="text-xl font-semibold text-white mb-6 flex items-center">
                 <BarChart3 className="w-5 h-5 mr-2 text-green-600" />
                 Learning Plan Progress
               </h3>
@@ -409,7 +415,7 @@ function App() {
                 ].map((item, index) => (
                   <div key={index} className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm font-medium text-gray-900">{item.plan}</span>
+                      <span className="text-sm font-medium text-white">{item.plan}</span>
                       <span className={`text-xs px-2 py-1 rounded-full ${
                         item.status === 'Complete' ? 'bg-green-100 text-green-800' :
                         item.status === 'Ahead' ? 'bg-blue-100 text-blue-800' :
@@ -417,7 +423,7 @@ function App() {
                         'bg-red-100 text-red-800'
                       }`}>{item.status}</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-gray-700 rounded-full h-2">
                       <div 
                         className={`h-2 rounded-full transition-all duration-500 ${
                           item.progress >= 90 ? 'bg-green-500' :
@@ -428,7 +434,7 @@ function App() {
                         style={{ width: `${item.progress}%` }}
                       ></div>
                     </div>
-                    <div className="text-xs text-gray-500">{item.progress}% Complete</div>
+                    <div className="text-xs text-gray-400">{item.progress}% Complete</div>
                   </div>
                 ))}
               </div>
@@ -436,10 +442,10 @@ function App() {
           </div>
 
           {/* Performance and Engagement Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
             {/* Performance Trends */}
-            <div className="bg-white rounded-xl p-6 shadow-lg">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700">
+              <h3 className="text-xl font-semibold text-white mb-6 flex items-center">
                 <TrendingUp className="w-5 h-5 mr-2 text-purple-600" />
                 Performance Trends
               </h3>
@@ -452,15 +458,15 @@ function App() {
                   { month: "May", score: 91 }
                 ].map((item, index) => (
                   <div key={index} className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">{item.month}</span>
+                    <span className="text-sm text-gray-300">{item.month}</span>
                     <div className="flex items-center space-x-2">
-                      <div className="w-20 bg-gray-200 rounded-full h-2">
+                      <div className="w-20 bg-gray-700 rounded-full h-2">
                         <div 
                           className="h-2 bg-purple-500 rounded-full"
                           style={{ width: `${item.score}%` }}
                         ></div>
                       </div>
-                      <span className="text-sm font-medium text-gray-900 w-8">{item.score}</span>
+                      <span className="text-sm font-medium text-white w-8">{item.score}</span>
                     </div>
                   </div>
                 ))}
@@ -468,8 +474,8 @@ function App() {
             </div>
 
             {/* Student Performance */}
-            <div className="bg-white rounded-xl p-6 shadow-lg">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700">
+              <h3 className="text-xl font-semibold text-white mb-6 flex items-center">
                 <Award className="w-5 h-5 mr-2 text-yellow-600" />
                 Student Performance
               </h3>
@@ -482,9 +488,9 @@ function App() {
                   { category: "Overall", score: 90, grade: "A-" }
                 ].map((item, index) => (
                   <div key={index} className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">{item.category}</span>
+                    <span className="text-sm text-gray-300">{item.category}</span>
                     <div className="flex items-center space-x-3">
-                      <span className="text-sm font-medium text-gray-900">{item.score}%</span>
+                      <span className="text-sm font-medium text-white">{item.score}%</span>
                       <span className={`text-sm font-bold px-2 py-1 rounded ${
                         item.grade.startsWith('A') ? 'bg-green-100 text-green-800' :
                         item.grade.startsWith('B') ? 'bg-blue-100 text-blue-800' :
@@ -497,8 +503,8 @@ function App() {
             </div>
 
             {/* Engagement Metrics */}
-            <div className="bg-white rounded-xl p-6 shadow-lg">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700">
+              <h3 className="text-xl font-semibold text-white mb-6 flex items-center">
                 <Activity className="w-5 h-5 mr-2 text-teal-600" />
                 Engagement Metrics
               </h3>
@@ -511,9 +517,9 @@ function App() {
                   { metric: "Help Requests", value: "3", trend: "down" }
                 ].map((item, index) => (
                   <div key={index} className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">{item.metric}</span>
+                    <span className="text-sm text-gray-300">{item.metric}</span>
                     <div className="flex items-center space-x-2">
-                      <span className="text-sm font-medium text-gray-900">{item.value}</span>
+                      <span className="text-sm font-medium text-white">{item.value}</span>
                       <div className={`w-2 h-2 rounded-full ${
                         item.trend === 'up' ? 'bg-green-500' :
                         item.trend === 'down' ? 'bg-red-500' :
@@ -527,8 +533,8 @@ function App() {
           </div>
 
           {/* Quick Actions */}
-          <div className="mt-12 bg-white rounded-xl p-6 shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions</h3>
+          <div className="mt-12 bg-white/10 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700 relative z-10">
+            <h3 className="text-xl font-semibold text-white mb-6">Quick Actions</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
               {[
                 { action: "Add Assignment", icon: Plus, color: "blue" },
@@ -539,12 +545,12 @@ function App() {
                 { action: "Export Data", icon: Download, color: "gray" }
               ].map((item, index) => (
                 <button key={index} className={`p-4 rounded-lg border-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
-                  item.color === 'blue' ? 'border-blue-200 bg-blue-50 hover:border-blue-400 text-blue-700' :
-                  item.color === 'green' ? 'border-green-200 bg-green-50 hover:border-green-400 text-green-700' :
-                  item.color === 'purple' ? 'border-purple-200 bg-purple-50 hover:border-purple-400 text-purple-700' :
-                  item.color === 'teal' ? 'border-teal-200 bg-teal-50 hover:border-teal-400 text-teal-700' :
-                  item.color === 'orange' ? 'border-orange-200 bg-orange-50 hover:border-orange-400 text-orange-700' :
-                  'border-gray-200 bg-gray-50 hover:border-gray-400 text-gray-700'
+                  item.color === 'blue' ? 'border-blue-200/30 bg-blue-500/10 hover:border-blue-400 text-blue-300' :
+                  item.color === 'green' ? 'border-green-200/30 bg-green-500/10 hover:border-green-400 text-green-300' :
+                  item.color === 'purple' ? 'border-purple-200/30 bg-purple-500/10 hover:border-purple-400 text-purple-300' :
+                  item.color === 'teal' ? 'border-teal-200/30 bg-teal-500/10 hover:border-teal-400 text-teal-300' :
+                  item.color === 'orange' ? 'border-orange-200/30 bg-orange-500/10 hover:border-orange-400 text-orange-300' :
+                  'border-gray-200/30 bg-gray-500/10 hover:border-gray-400 text-gray-300'
                 }`}>
                   <item.icon className="w-6 h-6 mx-auto mb-2" />
                   <span className="text-xs font-medium">{item.action}</span>
