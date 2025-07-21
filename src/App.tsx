@@ -165,10 +165,6 @@ const App = () => {
           className="absolute inset-0 bg-[url('https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600')] bg-cover bg-center opacity-10"
           style={{ transform: `translateY(${heroParallax}px)` }}
         />
-        
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-gray-900 mb-6 leading-tight">
               <span className="inline-block animate-slide-in-left">Transform</span>{' '}
               <span className="inline-block animate-slide-in-right animation-delay-200 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
                 Learning
@@ -421,6 +417,9 @@ const App = () => {
       {/* Testimonials Section */}
       <section id="testimonials" className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-pink-50/50" />
+        
+        {/* Light mode gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-white to-purple-50/80 transition-all duration-500" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div 
