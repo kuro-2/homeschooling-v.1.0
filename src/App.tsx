@@ -165,6 +165,10 @@ const App = () => {
           className="absolute inset-0 bg-[url('https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600')] bg-cover bg-center opacity-10"
           style={{ transform: `translateY(${heroParallax}px)` }}
         />
+        
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="animate-fade-in-up">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-8 leading-tight">
               <span className="inline-block animate-slide-in-left">Transform</span>{' '}
               <span className="inline-block animate-slide-in-right animation-delay-200 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
                 Learning
