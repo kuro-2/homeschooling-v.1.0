@@ -1,9 +1,36 @@
-import React, { useState } from 'react';
-import { Menu, X, ArrowRight, Users, BookOpen, Calendar, Sparkles, Star, ChevronRight, Brain, Target, BarChart3, Library, Clock, TrendingUp, Eye, Zap, Sun, Moon, UserPlus, FileText, Settings, Wand2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { 
+  Menu, 
+  X, 
+  BookOpen, 
+  Users, 
+  Award, 
+  Star, 
+  Play, 
+  CheckCircle, 
+  ArrowRight,
+  Brain,
+  Target,
+  Zap,
+  Heart,
+  Globe,
+  Shield,
+  Sparkles,
+  TrendingUp,
+  Clock,
+  MessageCircle
+} from 'lucide-react';
 
-// Custom hook for scroll-triggered animations
-const useScrollAnimation = () => {
-  React.useEffect(() => {
+const App = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [isVisible, setIsVisible] = useState({});
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
@@ -12,597 +39,455 @@ const useScrollAnimation = () => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
+          setIsVisible(prev => ({
+            ...prev,
+            [entry.target.id]: true
+          }));
         }
       });
     }, observerOptions);
 
-    // Observe all elements with scroll-animate class
-    const animateElements = document.querySelectorAll('.scroll-animate');
-    animateElements.forEach((el) => observer.observe(el));
+    // Observe all sections
+    const sections = document.querySelectorAll('[data-animate]');
+    sections.forEach(section => observer.observe(section));
 
-    return () => observer.disconnect();
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
   }, []);
-};
 
-function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  
-  // Initialize scroll animations
-  useScrollAnimation();
-
-  const aboutFeatures = [
-    {
-      icon: Users,
-      title: "Add a Student",
-      description: "Simple onboarding process that creates personalized learning profiles for each student in minutes.",
-      image: "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=800",
-      gradient: "from-purple-600 to-blue-600"
-    },
-    {
-      icon: BookOpen,
-      title: "Syllabus AI",
-      description: "Intelligent curriculum builder that structures comprehensive learning paths tailored to your educational goals.",
-      image: "https://images.pexels.com/photos/8613297/pexels-photo-8613297.jpeg?auto=compress&cs=tinysrgb&w=800",
-      gradient: "from-blue-600 to-teal-600"
-    },
-    {
-      icon: Calendar,
-      title: "Planning AI",
-      description: "Smart scheduling that auto-plans lessons week-by-week with adaptable timelines that fit your family's rhythm.",
-      image: "https://images.pexels.com/photos/8613202/pexels-photo-8613202.jpeg?auto=compress&cs=tinysrgb&w=800",
-      gradient: "from-teal-600 to-green-600"
-    },
-    {
-      icon: Sparkles,
-      title: "Personalize AI",
-      description: "The magic of AI personalization—customized to each student's unique pace, learning style, and interests.",
-      image: "https://images.pexels.com/photos/8613264/pexels-photo-8613264.jpeg?auto=compress&cs=tinysrgb&w=800",
-      gradient: "from-green-600 to-purple-600"
-    }
-  ];
-
-  const features = [
-    {
-      icon: Brain,
-      title: "AI Curriculum Assistant",
-      description: "Get personalized curriculum planning and lesson design assistance",
-      gradient: "from-purple-600 to-pink-600"
-    },
-    {
-      icon: Target,
-      title: "Learning Path Designer",
-      description: "Create customized learning paths for each child",
-      gradient: "from-blue-600 to-purple-600"
-    },
-    {
-      icon: BarChart3,
-      title: "Progress Tracking",
-      description: "Monitor learning progress with detailed analytics",
-      gradient: "from-teal-600 to-blue-600"
-    },
-    {
-      icon: Library,
-      title: "Resource Library",
-      description: "Access curated educational resources and materials",
-      gradient: "from-green-600 to-teal-600"
-    }
-  ];
-
-  const aiTools = [
-    {
-      title: "Syllabus AI",
-      description: "Creates comprehensive curricula tailored to your student's grade level, learning objectives, and interests.",
-      image: "/image1.png",
-      features: [
-        "Grade-appropriate content",
-        "Subject integration",
-        "Learning objective alignment",
-        "Progress tracking"
-      ]
-    },
-    {
-      title: "Planning AI",
-      description: "Intelligent scheduling and lesson planning that adapts to your family's pace and learning goals.",
-      image: "/image2.png",
-      features: [
-        "Adaptive scheduling",
-        "Optimal learning paths",
-        "Progress monitoring",
-        "Resource suggestions"
-      ]
-    },
-    {
-      title: "Personalize AI",
-      description: "Customizes content delivery and learning experiences to match each student's unique learning style.",
-      image: "/image3.png",
-      features: [
-        "Learning style adaptation",
-        "Interest-based content",
-        "Difficulty adjustment",
-        "Engagement optimization"
-      ]
-    }
-  ];
-
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      role: "Homeschooling Mother of 3",
-      content: "Dumroo.AI transformed our homeschooling journey. The AI-powered planning saved me hours every week and my kids are more engaged than ever.",
-      rating: 5
-    },
-    {
-      name: "Michael Chen",
-      role: "Former Teacher, Now Homeschooling Dad",
-      content: "As an educator, I'm impressed by how Dumroo.AI adapts to each child's learning style. It's like having a personal tutor for every subject.",
-      rating: 5
-    },
-    {
-      name: "Emma Rodriguez",
-      role: "Homeschooling Coordinator",
-      content: "The syllabus AI is incredible. It created a comprehensive curriculum that would have taken me months to develop on my own.",
-      rating: 5
-    }
-  ];
+  const parallaxOffset = scrollY * 0.5;
+  const heroParallax = scrollY * 0.3;
 
   return (
-    <div className={`${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} overflow-x-hidden transition-colors duration-300`}>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 overflow-x-hidden">
+      {/* Animated Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div 
+          className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-float"
+          style={{ transform: `translateY(${parallaxOffset}px)` }}
+        />
+        <div 
+          className="absolute top-1/2 -left-40 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-teal-400/20 rounded-full blur-3xl animate-float animation-delay-500"
+          style={{ transform: `translateY(${-parallaxOffset}px)` }}
+        />
+        <div 
+          className="absolute bottom-20 right-20 w-64 h-64 bg-gradient-to-br from-green-400/20 to-blue-400/20 rounded-full blur-3xl animate-float animation-delay-1000"
+          style={{ transform: `translateY(${parallaxOffset * 0.8}px)` }}
+        />
+      </div>
+
+      {/* Floating Particles */}
+      <div className="fixed inset-0 pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-float"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 4}s`
+            }}
+          />
+        ))}
+      </div>
+
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full ${isDarkMode ? 'bg-gray-900/95 border-gray-800' : 'bg-white/95 border-gray-200'} backdrop-blur-sm z-50 border-b transition-all duration-300`}>
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-200/30 transition-all duration-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center transform hover:scale-110 hover:rotate-12 transition-all duration-300">
-                <Sparkles className="w-5 h-5 text-white" />
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center space-x-2 group">
+              <div className="relative">
+                <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-all duration-300">
+                  <Brain className="w-6 h-6 text-white" />
+                </div>
+                <div className="absolute -inset-1 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl blur opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
               </div>
-              <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent hover:from-purple-300 hover:to-pink-300 transition-all duration-300">
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 Dumroo.AI
               </span>
             </div>
-            
+
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#about" className={`${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:scale-105 relative group`}>
-                About Us
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
+              <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors duration-300 relative group">
+                Features
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600 group-hover:w-full transition-all duration-300" />
               </a>
-              <a href="#how-it-works" className={`${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:scale-105 relative group`}>
-                How It Works
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
+              <a href="#about" className="text-gray-600 hover:text-gray-900 transition-colors duration-300 relative group">
+                About
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600 group-hover:w-full transition-all duration-300" />
               </a>
-              <a href="#ai-tools" className={`${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:scale-105 relative group`}>
-                AI Tools
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
-              </a>
-              <a href="#why-choose-us" className={`${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:scale-105 relative group`}>
-                Why Choose Us?
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
-              </a>
-              <a href="#testimonials" className={`${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:scale-105 relative group`}>
+              <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition-colors duration-300 relative group">
                 Testimonials
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600 group-hover:w-full transition-all duration-300" />
               </a>
-              <button 
-                onClick={() => setIsDarkMode(!isDarkMode)}
-                className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'} transition-all duration-300 hover:scale-110 hover:rotate-12`}
-              >
-                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              <a href="#contact" className="text-gray-600 hover:text-gray-900 transition-colors duration-300 relative group">
+                Contact
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600 group-hover:w-full transition-all duration-300" />
+              </a>
+              <button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2 rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg relative overflow-hidden group">
+                <span className="relative z-10">Get Started</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </button>
-              <a href="https://dumroo.ai/login" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-4 lg:px-6 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:-translate-y-0.5">
-                Get Started
-              </a>
             </div>
 
-            <button 
-              className="md:hidden"
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="w-6 h-6 transform rotate-90 transition-transform duration-300" /> : <Menu className="w-6 h-6 transform hover:scale-110 transition-all duration-300" />}
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile menu */}
-        {isMenuOpen && (
-          <div className={`md:hidden ${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border-t transition-all duration-300 animate-slide-down`}>
-            <div className="px-4 py-4 space-y-4">
-              <a href="#about" className={`block ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:translate-x-2 hover:scale-105`}>About Us</a>
-              <a href="#how-it-works" className={`block ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:translate-x-2 hover:scale-105`}>How It Works</a>
-              <a href="#ai-tools" className={`block ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:translate-x-2 hover:scale-105`}>AI Tools</a>
-              <a href="#why-choose-us" className={`block ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:translate-x-2 hover:scale-105`}>Why Choose Us?</a>
-              <a href="#testimonials" className={`block ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:translate-x-2 hover:scale-105`}>Testimonials</a>
-              <button 
-                onClick={() => setIsDarkMode(!isDarkMode)}
-                className={`flex items-center gap-2 ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'} transition-all duration-300 hover:translate-x-2 hover:scale-105`}
-              >
-                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-              </button>
-              <a href="https://dumroo.ai/login" className="block w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-6 py-3 rounded-lg font-medium transition-all duration-300 text-center transform hover:scale-105 hover:shadow-lg text-white">
-                Get Started
-              </a>
-            </div>
+        {/* Mobile Navigation */}
+        <div className={`md:hidden transition-all duration-300 ${isMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white/95 backdrop-blur-sm`}>
+          <div className="px-4 py-2 space-y-2">
+            <a href="#features" className="block py-2 text-gray-600 hover:text-gray-900 transition-colors duration-300">Features</a>
+            <a href="#about" className="block py-2 text-gray-600 hover:text-gray-900 transition-colors duration-300">About</a>
+            <a href="#testimonials" className="block py-2 text-gray-600 hover:text-gray-900 transition-colors duration-300">Testimonials</a>
+            <a href="#contact" className="block py-2 text-gray-600 hover:text-gray-900 transition-colors duration-300">Contact</a>
+            <button className="w-full mt-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2 rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300">
+              Get Started
+            </button>
           </div>
-        )}
+        </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center relative overflow-hidden px-4 py-16 sm:py-20">
-        {/* Improved background for both modes */}
-        <div className={`absolute inset-0 ${
-          isDarkMode 
-            ? 'bg-gradient-to-br from-purple-900/20 via-gray-900 to-blue-900/20' 
-            : 'bg-gradient-to-br from-blue-50/30 via-white/40 to-purple-50/30'
-        } transition-all duration-500`}></div>
+      <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-[url('https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600')] bg-cover bg-center opacity-10"
+          style={{ transform: `translateY(${heroParallax}px)` }}
+        />
         
-        {/* Subtle pattern overlay for light mode */}
-        <div className={`absolute inset-0 ${
-          isDarkMode 
-            ? 'bg-[url("https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600")] bg-cover bg-center opacity-10' 
-            : 'bg-[url("https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600")] bg-cover bg-center opacity-30'
-        } hover:scale-105 transition-transform duration-700`}></div>
-        
-        {/* Geometric shapes for visual interest in light mode */}
-        {!isDarkMode && (
-          <>
-            <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-purple-200/20 to-blue-200/20 rounded-full blur-xl animate-float"></div>
-            <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-br from-blue-200/20 to-teal-200/20 rounded-full blur-xl animate-float animation-delay-300"></div>
-            <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-br from-teal-200/20 to-green-200/20 rounded-full blur-xl animate-float animation-delay-500"></div>
-          </>
-        )}
-        
-        <div className="relative z-10 max-w-6xl mx-auto text-center w-full">
-          <div className="space-y-8 scroll-animate">
-            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight animate-fade-in-up px-2">
-              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-                Empower Your
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="animate-fade-in-up">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-gray-900 mb-6 leading-tight">
+              <span className="inline-block animate-slide-in-left">Transform</span>{' '}
+              <span className="inline-block animate-slide-in-right animation-delay-200 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+                Learning
               </span>
               <br />
-              <span className="bg-gradient-to-r from-blue-400 via-teal-400 to-green-400 bg-clip-text text-transparent">
-                Homeschooling Journey
-              </span>
+              <span className="inline-block animate-slide-in-left animation-delay-400">with AI</span>
             </h1>
-            
-            <p className={`text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-4xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200 px-4`}>
-              Transform your homeschooling experience with AI-powered tools designed specifically for homeschooling educators. From personalized curricula to adaptive lesson plans, we make quality education accessible and engaging.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-6 sm:pt-8 animate-fade-in-up animation-delay-400 px-4">
-              <a href="https://dumroo.ai/login" className="w-full xs:w-auto sm:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-4 xs:px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm xs:text-base sm:text-lg text-white transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2 group min-w-[140px]">
-                Get Started
-                <ArrowRight className="w-3 xs:w-4 sm:w-5 h-3 xs:h-4 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
-              </a>
-              <button className={`w-full xs:w-auto sm:w-auto border ${isDarkMode ? 'border-gray-600 hover:border-gray-400 hover:bg-gray-800' : 'border-gray-300 hover:border-gray-500 hover:bg-gray-100'} px-4 xs:px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm xs:text-base sm:text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:-translate-y-0.5 min-w-[140px]`}>
-                Watch Demo
-              </button>
-            </div>
           </div>
-        </div>
-      </section>
+          
+          <div className="animate-fade-in-up animation-delay-600">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+              Experience the future of education with our revolutionary AI-powered homeschooling platform. 
+              Personalized learning paths, intelligent tutoring, and adaptive assessments.
+            </p>
+          </div>
 
-      {/* About Us Section */}
-      <section id="about" className={`py-12 sm:py-16 lg:py-20 ${isDarkMode ? 'bg-gradient-to-b from-gray-900 to-gray-800' : 'bg-gradient-to-b from-gray-50 to-gray-100'} transition-colors duration-300`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12 lg:mb-16 scroll-animate">
-            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 animate-fade-in-up px-2">
-              <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>Everything You Need to</span>
-              <br />
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Succeed
+          <div className="animate-fade-in-up animation-delay-800 flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button className="group bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl relative overflow-hidden">
+              <span className="relative z-10 flex items-center">
+                Start Free Trial
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
               </span>
-            </h2>
-            <p className={`text-sm xs:text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-4xl mx-auto animate-fade-in-up animation-delay-200 px-4`}>
-              Powerful tools and features designed specifically for homeschooling educators
-            </p>
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+            </button>
+            
+            <button className="group flex items-center text-gray-700 hover:text-gray-900 transition-colors duration-300">
+              <div className="w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center mr-3 group-hover:bg-white transition-all duration-300 shadow-lg group-hover:shadow-xl">
+                <Play className="w-5 h-5 ml-1" />
+              </div>
+              Watch Demo
+            </button>
           </div>
 
-          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className={`${isDarkMode ? 'bg-gray-800/50 border-gray-700 hover:border-gray-600' : 'bg-white/70 border-gray-200 hover:border-gray-300'} backdrop-blur-sm rounded-xl p-4 sm:p-6 lg:p-8 border transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:-translate-y-2 group scroll-animate`} style={{animationDelay: `${index * 100}ms`}}>
-                <div className={`p-2 sm:p-3 lg:p-4 rounded-lg bg-gradient-to-r ${feature.gradient} w-fit mb-3 sm:mb-4 lg:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}>
-                  <feature.icon className="w-5 sm:w-6 lg:w-8 h-5 sm:h-6 lg:h-8 text-white" />
+          {/* Floating Stats */}
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 animate-fade-in-up animation-delay-1000">
+            {[
+              { number: '50K+', label: 'Students', icon: Users, color: 'from-blue-500 to-teal-500' },
+              { number: '98%', label: 'Success Rate', icon: Award, color: 'from-green-500 to-blue-500' },
+              { number: '24/7', label: 'AI Support', icon: Brain, color: 'from-purple-500 to-pink-500' }
+            ].map((stat, index) => (
+              <div 
+                key={index}
+                className="group bg-white/70 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/90 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl border border-white/20"
+                style={{ animationDelay: `${1200 + index * 200}ms` }}
+              >
+                <div className={`w-12 h-12 bg-gradient-to-r ${stat.color} rounded-xl flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-300`}>
+                  <stat.icon className="w-6 h-6 text-white" />
                 </div>
-                
-                <h3 className={`text-base sm:text-lg lg:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-2 sm:mb-3 lg:mb-4 group-hover:text-purple-400 transition-colors duration-300`}>
-                  {feature.title}
-                </h3>
-                
-                <p className={`text-xs sm:text-sm lg:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
-                  {feature.description}
-                </p>
+                <div className="text-3xl font-bold text-gray-900 mb-2">{stat.number}</div>
+                <div className="text-gray-600">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
-      </section>
 
-      {/* How It Works Section with Visual Illustrations */}
-      <section id="how-it-works" className={`min-h-screen flex items-center py-12 sm:py-16 lg:py-20 ${isDarkMode ? 'bg-gradient-to-b from-gray-800 to-gray-700' : 'bg-gradient-to-b from-gray-100 to-white'} transition-colors duration-300`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="text-center mb-8 sm:mb-12 lg:mb-16 scroll-animate">
-            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 px-2">
-              <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>How It </span>
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Works
-              </span>
-            </h2>
-            <p className={`text-sm xs:text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-4xl mx-auto px-4`}>
-              Get started with Dumroo.AI in four simple steps and transform your homeschooling experience
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {/* Step 1: Add Student */}
-            <div className="text-center scroll-animate">
-              <div className={`relative mx-auto w-24 xs:w-28 sm:w-32 h-24 xs:h-28 sm:h-32 mb-4 sm:mb-6 ${isDarkMode ? 'bg-gray-800/50' : 'bg-white/80'} rounded-full flex items-center justify-center border-2 sm:border-4 border-purple-200/30 hover:border-purple-400/50 transition-all duration-300 group`}>
-                {/* Animated background circles */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400/20 to-pink-400/20 animate-pulse-slow"></div>
-                <div className="absolute inset-1 sm:inset-2 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 group-hover:scale-110 transition-transform duration-300"></div>
-                
-                {/* Icon with number */}
-                <div className="relative z-10 flex flex-col items-center">
-                  <UserPlus className="w-8 xs:w-10 sm:w-12 h-8 xs:h-10 sm:h-12 text-purple-500 mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
-                  <span className="text-xs font-bold bg-gradient-to-r from-purple-600 to-pink-600 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full">1</span>
-                </div>
-                
-                {/* Connecting line */}
-                <div className="hidden lg:block absolute top-1/2 -right-6 xl:-right-8 w-12 xl:w-16 h-0.5 bg-gradient-to-r from-purple-400/50 to-transparent"></div>
-              </div>
-              
-              <h3 className={`text-base sm:text-lg lg:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-2 sm:mb-3 px-2`}>Add Student</h3>
-              <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed px-2`}>
-                Create a personalized profile for your student with their learning preferences and goals
-              </p>
-            </div>
-
-            {/* Step 2: Generate Syllabus */}
-            <div className="text-center scroll-animate animation-delay-200">
-              <div className={`relative mx-auto w-24 xs:w-28 sm:w-32 h-24 xs:h-28 sm:h-32 mb-4 sm:mb-6 ${isDarkMode ? 'bg-gray-800/50' : 'bg-white/80'} rounded-full flex items-center justify-center border-2 sm:border-4 border-blue-200/30 hover:border-blue-400/50 transition-all duration-300 group`}>
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400/20 to-teal-400/20 animate-pulse-slow animation-delay-100"></div>
-                <div className="absolute inset-1 sm:inset-2 rounded-full bg-gradient-to-r from-blue-500/10 to-teal-500/10 group-hover:scale-110 transition-transform duration-300"></div>
-                
-                <div className="relative z-10 flex flex-col items-center">
-                  <FileText className="w-8 xs:w-10 sm:w-12 h-8 xs:h-10 sm:h-12 text-blue-500 mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
-                  <span className="text-xs font-bold bg-gradient-to-r from-blue-600 to-teal-600 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full">2</span>
-                </div>
-                
-                <div className="hidden lg:block absolute top-1/2 -right-6 xl:-right-8 w-12 xl:w-16 h-0.5 bg-gradient-to-r from-blue-400/50 to-transparent"></div>
-              </div>
-              
-              <h3 className={`text-base sm:text-lg lg:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-2 sm:mb-3 px-2`}>Generate Syllabus</h3>
-              <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed px-2`}>
-                AI creates a comprehensive curriculum tailored to your student's grade level and interests
-              </p>
-            </div>
-
-            {/* Step 3: Plan Lessons */}
-            <div className="text-center scroll-animate animation-delay-300">
-              <div className={`relative mx-auto w-24 xs:w-28 sm:w-32 h-24 xs:h-28 sm:h-32 mb-4 sm:mb-6 ${isDarkMode ? 'bg-gray-800/50' : 'bg-white/80'} rounded-full flex items-center justify-center border-2 sm:border-4 border-teal-200/30 hover:border-teal-400/50 transition-all duration-300 group`}>
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-teal-400/20 to-green-400/20 animate-pulse-slow animation-delay-200"></div>
-                <div className="absolute inset-1 sm:inset-2 rounded-full bg-gradient-to-r from-teal-500/10 to-green-500/10 group-hover:scale-110 transition-transform duration-300"></div>
-                
-                <div className="relative z-10 flex flex-col items-center">
-                  <Calendar className="w-8 xs:w-10 sm:w-12 h-8 xs:h-10 sm:h-12 text-teal-500 mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
-                  <span className="text-xs font-bold bg-gradient-to-r from-teal-600 to-green-600 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full">3</span>
-                </div>
-                
-                <div className="hidden lg:block absolute top-1/2 -right-6 xl:-right-8 w-12 xl:w-16 h-0.5 bg-gradient-to-r from-teal-400/50 to-transparent"></div>
-              </div>
-              
-              <h3 className={`text-base sm:text-lg lg:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-2 sm:mb-3 px-2`}>Plan Lessons</h3>
-              <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed px-2`}>
-                Smart scheduling creates weekly lesson plans that adapt to your family's rhythm
-              </p>
-            </div>
-
-            {/* Step 4: Personalize Learning */}
-            <div className="text-center scroll-animate animation-delay-400">
-              <div className={`relative mx-auto w-24 xs:w-28 sm:w-32 h-24 xs:h-28 sm:h-32 mb-4 sm:mb-6 ${isDarkMode ? 'bg-gray-800/50' : 'bg-white/80'} rounded-full flex items-center justify-center border-2 sm:border-4 border-green-200/30 hover:border-green-400/50 transition-all duration-300 group`}>
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/20 to-purple-400/20 animate-pulse-slow animation-delay-300"></div>
-                <div className="absolute inset-1 sm:inset-2 rounded-full bg-gradient-to-r from-green-500/10 to-purple-500/10 group-hover:scale-110 transition-transform duration-300"></div>
-                
-                <div className="relative z-10 flex flex-col items-center">
-                  <Wand2 className="w-8 xs:w-10 sm:w-12 h-8 xs:h-10 sm:h-12 text-green-500 mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300" />
-                  <span className="text-xs font-bold bg-gradient-to-r from-green-600 to-purple-600 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full">4</span>
-                </div>
-              </div>
-              
-              <h3 className={`text-base sm:text-lg lg:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-2 sm:mb-3 px-2`}>Personalize</h3>
-              <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed px-2`}>
-                AI continuously adapts content to match your student's learning style and pace
-              </p>
-            </div>
-          </div>
-
-          {/* Call to action for this section */}
-          <div className="text-center mt-8 sm:mt-12 lg:mt-16 scroll-animate animation-delay-500">
-            <a href="https://dumroo.ai/login" className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg text-white transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 group">
-              Start Your Journey
-              <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
-            </a>
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-pulse" />
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="ai-tools" className={`py-12 sm:py-16 lg:py-20 ${isDarkMode ? 'bg-gradient-to-b from-gray-700 to-gray-800' : 'bg-gradient-to-b from-white to-gray-50'} transition-colors duration-300`}>
+      <section id="features" className="py-20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12 lg:mb-16 scroll-animate">
-            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 animate-fade-in-up px-2">
-              <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>Meet Your AI</span>
-              <br />
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Teaching Assistants
+          <div 
+            id="features-header"
+            data-animate
+            className={`text-center mb-16 transition-all duration-1000 ${
+              isVisible['features-header'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                Revolutionary Features
               </span>
             </h2>
-            <p className={`text-sm xs:text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-4xl mx-auto animate-fade-in-up animation-delay-200 px-4`}>
-              Three specialized AI tools working together to create the perfect homeschooling experience for your family
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Discover how our AI-powered platform transforms traditional learning into an engaging, personalized experience
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            {aiTools.map((tool, index) => (
-              <div key={index} className={`${isDarkMode ? 'bg-gray-800/50 border-gray-700 hover:border-gray-600' : 'bg-white/70 border-gray-200 hover:border-gray-300'} backdrop-blur-sm rounded-xl overflow-hidden border transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:-translate-y-3 group scroll-animate ${index === 2 && 'sm:col-span-2 lg:col-span-1'}`} style={{animationDelay: `${index * 150}ms`}}>
-                <div className="relative overflow-hidden">
-                  <div className={`absolute inset-0 bg-gradient-to-r ${tool.gradient} opacity-30`}></div>
-                  <img 
-                    src={tool.image} 
-                    alt={tool.title}
-                    className="w-full h-32 xs:h-36 sm:h-40 lg:h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute top-2 sm:top-3 lg:top-4 left-2 sm:left-3 lg:left-4">
-                    <div className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-gradient-to-r ${tool.gradient} text-white text-xs sm:text-sm font-medium transform group-hover:scale-110 transition-all duration-300`}>
-                      {tool.title}
-                    </div>
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: Brain,
+                title: 'AI-Powered Learning',
+                description: 'Adaptive algorithms that understand your learning style and pace',
+                color: 'from-purple-500 to-pink-500',
+                delay: 0
+              },
+              {
+                icon: Target,
+                title: 'Personalized Curriculum',
+                description: 'Custom learning paths tailored to individual strengths and interests',
+                color: 'from-blue-500 to-teal-500',
+                delay: 200
+              },
+              {
+                icon: Zap,
+                title: 'Interactive Content',
+                description: 'Engaging multimedia lessons with gamification elements',
+                color: 'from-green-500 to-blue-500',
+                delay: 400
+              },
+              {
+                icon: Globe,
+                title: 'Global Community',
+                description: 'Connect with learners worldwide and share experiences',
+                color: 'from-teal-500 to-purple-500',
+                delay: 600
+              },
+              {
+                icon: Shield,
+                title: 'Safe Environment',
+                description: 'Secure, monitored platform designed for young learners',
+                color: 'from-pink-500 to-red-500',
+                delay: 800
+              },
+              {
+                icon: TrendingUp,
+                title: 'Progress Tracking',
+                description: 'Real-time analytics and detailed progress reports',
+                color: 'from-orange-500 to-pink-500',
+                delay: 1000
+              }
+            ].map((feature, index) => (
+              <div
+                key={index}
+                id={`feature-${index}`}
+                data-animate
+                className={`group bg-white/70 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/90 transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl border border-white/20 ${
+                  isVisible[`feature-${index}`] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
+                style={{ transitionDelay: `${feature.delay}ms` }}
+              >
+                <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}>
+                  <feature.icon className="w-8 h-8 text-white" />
                 </div>
-                
-                <div className="p-3 xs:p-4 sm:p-6 lg:p-8">
-                  <h3 className={`text-base xs:text-lg sm:text-xl lg:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-2 sm:mb-3 lg:mb-4 group-hover:text-purple-400 transition-colors duration-300`}>
-                    {tool.title}
-                  </h3>
-                  
-                  <p className={`text-xs xs:text-sm lg:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-3 sm:mb-4 lg:mb-6 leading-relaxed`}>
-                    {tool.description}
-                  </p>
-                  
-                  <div className="space-y-1.5 sm:space-y-2 lg:space-y-3">
-                    <h4 className={`text-sm xs:text-base lg:text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Key Features:</h4>
-                    <ul className="space-y-1 sm:space-y-1.5 lg:space-y-2">
-                      {tool.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className={`flex items-center gap-1.5 sm:gap-2 lg:gap-3 text-xs xs:text-sm lg:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} group-hover:translate-x-1 transition-transform duration-300`} style={{transitionDelay: `${featureIndex * 50}ms`}}>
-                          <div className={`w-1 xs:w-1.5 lg:w-2 h-1 xs:h-1.5 lg:h-2 rounded-full bg-gradient-to-r ${tool.gradient} group-hover:scale-125 transition-transform duration-300 flex-shrink-0`}></div>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors duration-300">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
+                <div className={`mt-6 w-0 h-1 bg-gradient-to-r ${feature.color} group-hover:w-full transition-all duration-500`} />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
-      <section id="why-choose-us" className={`py-12 sm:py-16 lg:py-20 ${isDarkMode ? 'bg-gradient-to-b from-gray-800 to-gray-700' : 'bg-gradient-to-b from-gray-50 to-white'} transition-colors duration-300`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12 lg:mb-16 scroll-animate">
-            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 animate-fade-in-up px-2">
-              <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>Why Homeschooling Educators</span>
-              <br />
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Love Dumroo AI
-              </span>
-            </h2>
-            <p className={`text-sm xs:text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-4xl mx-auto animate-fade-in-up animation-delay-200 px-4`}>
-              See the impact our platform has on homeschooling success
-            </p>
-          </div>
+      {/* About Section */}
+      <section id="about" className="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-2xl animate-float" />
+          <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-br from-blue-400/20 to-teal-400/20 rounded-full blur-2xl animate-float animation-delay-500" />
+        </div>
 
-          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-            <div className={`text-center ${isDarkMode ? 'bg-gray-800/50 border-gray-700 hover:border-gray-600' : 'bg-white/70 border-gray-200 hover:border-gray-300'} backdrop-blur-sm rounded-xl p-4 sm:p-6 lg:p-8 border transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:-translate-y-2 group scroll-animate`}>
-              <div className="mb-4 sm:mb-6">
-                <div className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300">
-                  50%
-                </div>
-                <div className={`text-base sm:text-lg lg:text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-1 sm:mb-2 group-hover:text-purple-400 transition-colors duration-300`}>
-                  Time Saved
-                </div>
-                <p className={`text-xs sm:text-sm lg:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Reduce planning time by up to 50%
-                </p>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div 
+              id="about-content"
+              data-animate
+              className={`transition-all duration-1000 ${
+                isVisible['about-content'] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
+              }`}
+            >
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                Revolutionizing
+                <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"> Education</span>
+              </h2>
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                Our AI-powered platform combines cutting-edge technology with proven educational methodologies 
+                to create a learning experience that adapts to each student's unique needs, interests, and pace.
+              </p>
+              
+              <div className="space-y-4 mb-8">
+                {[
+                  'Personalized learning algorithms',
+                  'Real-time progress tracking',
+                  'Interactive multimedia content',
+                  '24/7 AI tutoring support'
+                ].map((item, index) => (
+                  <div 
+                    key={index}
+                    className={`flex items-center transition-all duration-500 ${
+                      isVisible['about-content'] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-5'
+                    }`}
+                    style={{ transitionDelay: `${500 + index * 100}ms` }}
+                  >
+                    <CheckCircle className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700">{item}</span>
+                  </div>
+                ))}
               </div>
-              <div className="w-8 sm:w-12 lg:w-16 h-0.5 sm:h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full group-hover:w-12 sm:group-hover:w-16 lg:group-hover:w-20 transition-all duration-300"></div>
+
+              <button className="group bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+                <span className="flex items-center">
+                  Learn More
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                </span>
+              </button>
             </div>
 
-            <div className={`text-center ${isDarkMode ? 'bg-gray-800/50 border-gray-700 hover:border-gray-600' : 'bg-white/70 border-gray-200 hover:border-gray-300'} backdrop-blur-sm rounded-xl p-4 sm:p-6 lg:p-8 border transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:-translate-y-2 group scroll-animate animation-delay-100`}>
-              <div className="mb-4 sm:mb-6">
-                <div className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300">
-                  85%
+            <div 
+              id="about-visual"
+              data-animate
+              className={`relative transition-all duration-1000 ${
+                isVisible['about-visual'] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
+              }`}
+            >
+              <div className="relative">
+                <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-3xl p-8 transform hover:scale-105 transition-all duration-500">
+                  <div className="grid grid-cols-2 gap-4">
+                    {[
+                      { icon: BookOpen, color: 'from-purple-500 to-pink-500' },
+                      { icon: Users, color: 'from-blue-500 to-teal-500' },
+                      { icon: Award, color: 'from-green-500 to-blue-500' },
+                      { icon: Star, color: 'from-orange-500 to-pink-500' }
+                    ].map((item, index) => (
+                      <div 
+                        key={index}
+                        className={`bg-white rounded-2xl p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-2 ${
+                          isVisible['about-visual'] ? 'animate-scale-in' : ''
+                        }`}
+                        style={{ animationDelay: `${index * 200}ms` }}
+                      >
+                        <div className={`w-12 h-12 bg-gradient-to-r ${item.color} rounded-xl flex items-center justify-center mb-4`}>
+                          <item.icon className="w-6 h-6 text-white" />
+                        </div>
+                        <div className="h-2 bg-gray-200 rounded-full mb-2">
+                          <div className={`h-full bg-gradient-to-r ${item.color} rounded-full animate-pulse`} style={{ width: `${60 + index * 10}%` }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className={`text-base sm:text-lg lg:text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-1 sm:mb-2 group-hover:text-blue-400 transition-colors duration-300`}>
-                  Better Outcomes
-                </div>
-                <p className={`text-xs sm:text-sm lg:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Improved learning results
-                </p>
+                
+                {/* Floating elements */}
+                <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-bounce" />
+                <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-gradient-to-r from-blue-500 to-teal-500 rounded-full animate-bounce animation-delay-500" />
               </div>
-              <div className="w-8 sm:w-12 lg:w-16 h-0.5 sm:h-1 bg-gradient-to-r from-blue-500 to-teal-500 mx-auto rounded-full group-hover:w-12 sm:group-hover:w-16 lg:group-hover:w-20 transition-all duration-300"></div>
-            </div>
-
-            <div className={`text-center ${isDarkMode ? 'bg-gray-800/50 border-gray-700 hover:border-gray-600' : 'bg-white/70 border-gray-200 hover:border-gray-300'} backdrop-blur-sm rounded-xl p-4 sm:p-6 lg:p-8 border transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:-translate-y-2 group scroll-animate animation-delay-200`}>
-              <div className="mb-4 sm:mb-6">
-                <div className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-teal-400 to-green-400 bg-clip-text text-transparent mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300">
-                  90%
-                </div>
-                <div className={`text-base sm:text-lg lg:text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-1 sm:mb-2 group-hover:text-teal-400 transition-colors duration-300`}>
-                  Engagement
-                </div>
-                <p className={`text-xs sm:text-sm lg:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Increased student engagement
-                </p>
-              </div>
-              <div className="w-8 sm:w-12 lg:w-16 h-0.5 sm:h-1 bg-gradient-to-r from-teal-500 to-green-500 mx-auto rounded-full group-hover:w-12 sm:group-hover:w-16 lg:group-hover:w-20 transition-all duration-300"></div>
-            </div>
-
-            <div className={`text-center ${isDarkMode ? 'bg-gray-800/50 border-gray-700 hover:border-gray-600' : 'bg-white/70 border-gray-200 hover:border-gray-300'} backdrop-blur-sm rounded-xl p-4 sm:p-6 lg:p-8 border transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:-translate-y-2 group scroll-animate animation-delay-300`}>
-              <div className="mb-4 sm:mb-6">
-                <div className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-green-400 to-purple-400 bg-clip-text text-transparent mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300">
-                  100%
-                </div>
-                <div className={`text-base sm:text-lg lg:text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-1 sm:mb-2 group-hover:text-green-400 transition-colors duration-300`}>
-                  Personalization
-                </div>
-                <p className={`text-xs sm:text-sm lg:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Tailored learning experiences
-                </p>
-              </div>
-              <div className="w-8 sm:w-12 lg:w-16 h-0.5 sm:h-1 bg-gradient-to-r from-green-500 to-purple-500 mx-auto rounded-full group-hover:w-12 sm:group-hover:w-16 lg:group-hover:w-20 transition-all duration-300"></div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className={`py-12 sm:py-16 lg:py-20 ${isDarkMode ? 'bg-gradient-to-b from-gray-700 to-gray-900' : 'bg-gradient-to-b from-white to-gray-50'} transition-colors duration-300`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12 lg:mb-16 scroll-animate">
-            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 animate-fade-in-up px-2">
-              <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>Trusted by</span>
-              <br />
-              <span className="bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
-                Homeschooling Families
-              </span>
+      <section id="testimonials" className="py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-pink-50/50" />
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div 
+            id="testimonials-header"
+            data-animate
+            className={`text-center mb-16 transition-all duration-1000 ${
+              isVisible['testimonials-header'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              What Families Are Saying
             </h2>
-            <p className={`text-sm xs:text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-4xl mx-auto animate-fade-in-up animation-delay-200 px-4`}>
-              See how Dumroo.AI is transforming homeschooling experiences across the country
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Join thousands of families who have transformed their homeschooling experience
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className={`${isDarkMode ? 'bg-gray-800/50 border-gray-700 hover:border-gray-600' : 'bg-white/70 border-gray-200 hover:border-gray-300'} backdrop-blur-sm rounded-xl p-4 sm:p-6 lg:p-8 border transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:-translate-y-2 group scroll-animate ${index === 2 && 'sm:col-span-2 lg:col-span-1'}`} style={{animationDelay: `${index * 150}ms`}}>
-                <div className="flex items-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                name: 'Sarah Johnson',
+                role: 'Homeschooling Parent',
+                content: 'This platform has completely transformed how my children learn. The AI adapts to their pace perfectly!',
+                rating: 5,
+                delay: 0
+              },
+              {
+                name: 'Michael Chen',
+                role: 'Educational Consultant',
+                content: 'The most innovative educational technology I\'ve seen. It truly personalizes learning for each child.',
+                rating: 5,
+                delay: 200
+              },
+              {
+                name: 'Emily Rodriguez',
+                role: 'Mother of 3',
+                content: 'My kids are more engaged than ever. The interactive lessons make learning fun and effective.',
+                rating: 5,
+                delay: 400
+              }
+            ].map((testimonial, index) => (
+              <div
+                key={index}
+                id={`testimonial-${index}`}
+                data-animate
+                className={`group bg-white/80 backdrop-blur-sm rounded-2xl p-8 hover:bg-white transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl border border-white/30 ${
+                  isVisible[`testimonial-${index}`] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
+                style={{ transitionDelay: `${testimonial.delay}ms` }}
+              >
+                <div className="flex items-center mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-3 xs:w-4 lg:w-5 h-3 xs:h-4 lg:h-5 text-yellow-400 fill-current hover:scale-125 transition-transform duration-300" style={{transitionDelay: `${i * 50}ms`}} />
+                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                
-                <p className={`text-xs xs:text-sm lg:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-4 sm:mb-6 leading-relaxed`}>
+                <p className="text-gray-700 mb-6 leading-relaxed italic">
                   "{testimonial.content}"
                 </p>
-                
-                <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
-                  <div className="w-8 xs:w-10 lg:w-12 h-8 xs:h-10 lg:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 flex-shrink-0">
-                    <span className="text-white font-bold text-xs xs:text-sm lg:text-lg">
+                <div className="flex items-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mr-4">
+                    <span className="text-white font-semibold">
                       {testimonial.name.split(' ').map(n => n[0]).join('')}
                     </span>
                   </div>
                   <div>
-                    <div className={`text-xs xs:text-sm lg:text-base font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} group-hover:text-purple-400 transition-colors duration-300`}>{testimonial.name}</div>
-                    <div className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-xs lg:text-sm`}>{testimonial.role}</div>
+                    <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                    <div className="text-gray-600 text-sm">{testimonial.role}</div>
                   </div>
                 </div>
               </div>
@@ -612,114 +497,112 @@ function App() {
       </section>
 
       {/* CTA Section */}
-      <section className={`py-12 sm:py-16 lg:py-20 ${isDarkMode ? 'bg-gradient-to-r from-purple-900 via-gray-900 to-blue-900' : 'bg-gradient-to-r from-purple-100 via-gray-50 to-blue-100'} transition-colors duration-300`}>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center scroll-animate">
-          <h2 className={`text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'} animate-fade-in-up px-2`}>
-            Ready to Transform Your
-            <br />
-            <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Homeschooling Journey?
-            </span>
-          </h2>
-          
-          <p className={`text-sm xs:text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-6 sm:mb-8 max-w-3xl mx-auto animate-fade-in-up animation-delay-200 px-4`}>
-            Join thousands of families who've already discovered the power of AI-assisted homeschooling. Start your free trial today.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 animate-fade-in-up animation-delay-400 px-4">
-            <a href="https://dumroo.ai/login" className="w-full xs:w-auto sm:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-4 xs:px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm xs:text-base sm:text-lg text-white transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2 group min-w-[140px]">
-              Get Started
-              <ArrowRight className="w-3 xs:w-4 sm:w-5 h-3 xs:h-4 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
-            </a>
-            <button className={`w-full xs:w-auto sm:w-auto border ${isDarkMode ? 'border-gray-600 hover:border-gray-400 hover:bg-gray-800' : 'border-gray-300 hover:border-gray-500 hover:bg-gray-100'} px-4 xs:px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm xs:text-base sm:text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:-translate-y-0.5 min-w-[140px]`}>
-              Schedule Demo
-            </button>
+      <section className="py-20 bg-gradient-to-br from-purple-600 via-pink-600 to-blue-600 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full blur-2xl animate-float" />
+          <div className="absolute bottom-10 right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl animate-float animation-delay-500" />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div 
+            id="cta-content"
+            data-animate
+            className={`transition-all duration-1000 ${
+              isVisible['cta-content'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
+              Ready to Transform Learning?
+            </h2>
+            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+              Join thousands of families already using our AI-powered platform to revolutionize homeschooling
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <button className="group bg-white text-purple-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+                <span className="flex items-center">
+                  Start Free Trial
+                  <Sparkles className="ml-2 w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
+                </span>
+              </button>
+              
+              <button className="group flex items-center text-white hover:text-gray-200 transition-colors duration-300">
+                <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mr-3 group-hover:bg-white/30 transition-all duration-300">
+                  <MessageCircle className="w-5 h-5" />
+                </div>
+                Schedule Demo
+              </button>
+            </div>
+
+            <div className="mt-12 flex items-center justify-center space-x-8 text-white/80">
+              <div className="flex items-center">
+                <Clock className="w-5 h-5 mr-2" />
+                <span>No setup required</span>
+              </div>
+              <div className="flex items-center">
+                <Shield className="w-5 h-5 mr-2" />
+                <span>100% secure</span>
+              </div>
+              <div className="flex items-center">
+                <Heart className="w-5 h-5 mr-2" />
+                <span>Cancel anytime</span>
+              </div>
+            </div>
           </div>
-          
-          <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-4 sm:mt-6 text-xs sm:text-sm animate-fade-in-up animation-delay-600 px-4`}>
-            No credit card required • Free to start • Cancel anytime
-          </p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border-t py-8 sm:py-10 lg:py-12 transition-colors duration-300`}>
+      <footer id="contact" className="bg-gray-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8">
-            {/* Brand Section */}
-            <div className="xs:col-span-2 lg:col-span-1">
-              <div className="flex items-center space-x-2 mb-3 sm:mb-4">
-                <div className="w-6 sm:w-8 h-6 sm:h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center hover:scale-110 hover:rotate-12 transition-all duration-300">
-                  <Sparkles className="w-3 sm:w-5 h-3 sm:h-5 text-white" />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="col-span-1 md:col-span-2">
+              <div className="flex items-center space-x-2 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
+                  <Brain className="w-6 h-6 text-white" />
                 </div>
-                <span className="text-base sm:text-lg lg:text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent hover:from-purple-300 hover:to-pink-300 transition-all duration-300">
-                  Dumroo.ai
-                </span>
+                <span className="text-2xl font-bold">Dumroo.AI</span>
               </div>
-              <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-xs sm:text-sm leading-relaxed`}>
-                Empowering homeschooling families with AI-powered educational tools for personalized learning experiences.
+              <p className="text-gray-400 mb-6 max-w-md">
+                Transforming education through AI-powered personalized learning experiences for homeschooling families worldwide.
               </p>
+              <div className="flex space-x-4">
+                {['facebook', 'twitter', 'instagram', 'linkedin'].map((social) => (
+                  <div key={social} className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors duration-300 cursor-pointer">
+                    <div className="w-5 h-5 bg-current" />
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Product Section */}
             <div>
-              <h3 className={`${isDarkMode ? 'text-white' : 'text-gray-900'} font-semibold mb-3 sm:mb-4 text-sm sm:text-base`}>Product</h3>
-              <ul className="space-y-1.5 sm:space-y-2">
-                <li><a href="#" className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-all duration-300 text-xs sm:text-sm hover:translate-x-1`}>Syllabus AI</a></li>
-                <li><a href="#" className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-all duration-300 text-xs sm:text-sm hover:translate-x-1`}>Planning AI</a></li>
-                <li><a href="#" className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-all duration-300 text-xs sm:text-sm hover:translate-x-1`}>Personalize AI</a></li>
-                <li><a href="#" className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-all duration-300 text-xs sm:text-sm hover:translate-x-1`}>Pricing</a></li>
+              <h3 className="text-lg font-semibold mb-4">Product</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors duration-300">Features</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-300">Pricing</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-300">API</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-300">Documentation</a></li>
               </ul>
             </div>
 
-            {/* Support Section */}
             <div>
-              <h3 className={`${isDarkMode ? 'text-white' : 'text-gray-900'} font-semibold mb-3 sm:mb-4 text-sm sm:text-base`}>Support</h3>
-              <ul className="space-y-1.5 sm:space-y-2">
-                <li><a href="#" className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-all duration-300 text-xs sm:text-sm hover:translate-x-1`}>Help Center</a></li>
-                <li><a href="#" className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-all duration-300 text-xs sm:text-sm hover:translate-x-1`}>Documentation</a></li>
-                <li><a href="#" className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-all duration-300 text-xs sm:text-sm hover:translate-x-1`}>Community</a></li>
-                <li><a href="#" className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-all duration-300 text-xs sm:text-sm hover:translate-x-1`}>Contact Us</a></li>
-              </ul>
-            </div>
-
-            {/* Contact Section */}
-            <div>
-              <h3 className={`${isDarkMode ? 'text-white' : 'text-gray-900'} font-semibold mb-3 sm:mb-4 text-sm sm:text-base`}>Contact</h3>
-              <ul className={`space-y-1.5 sm:space-y-2 text-xs sm:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                <li>
-                  <a href="mailto:support@eduaihub.com" className={`${isDarkMode ? 'hover:text-white' : 'hover:text-gray-900'} transition-all duration-300 hover:translate-x-1`}>
-                    support@eduaihub.com
-                  </a>
-                </li>
-                <li>
-                  <a href="tel:1-800-EDU-HELP" className={`${isDarkMode ? 'hover:text-white' : 'hover:text-gray-900'} transition-all duration-300 hover:translate-x-1`}>
-                    1-800-EDU-HELP
-                  </a>
-                </li>
-                <li>San Francisco, CA</li>
+              <h3 className="text-lg font-semibold mb-4">Support</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors duration-300">Help Center</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-300">Contact Us</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-300">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-300">Terms of Service</a></li>
               </ul>
             </div>
           </div>
 
-          {/* Bottom Section */}
-          <div className={`pt-6 sm:pt-8 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-              <div className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-xs sm:text-sm text-center sm:text-left`}>
-                © 2025 Dumroo.ai. All rights reserved.
-              </div>
-              
-              <div className="flex items-center space-x-3 sm:space-x-6 text-xs sm:text-sm">
-                <a href="#" className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-all duration-300 hover:scale-105 whitespace-nowrap`}>Privacy Policy</a>
-                <a href="#" className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-all duration-300 hover:scale-105 whitespace-nowrap`}>Terms of Service</a>
-                <a href="#" className={`${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-all duration-300 hover:scale-105 whitespace-nowrap`}>Cookie Policy</a>
-              </div>
-            </div>
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 Dumroo.AI. All rights reserved. Made with ❤️ for learners everywhere.</p>
           </div>
         </div>
       </footer>
     </div>
   );
-}
+};
 
 export default App;
