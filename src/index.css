@@ -2,6 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CSS Variables for theme colors */
+:root {
+  --pastel-purple: #c4b5fd;
+  --pastel-pink: #f9a8d4;
+  --pastel-blue: #93c5fd;
+  --pastel-green: #86efac;
+  --pastel-yellow: #fde68a;
+  --pastel-teal: #7dd3fc;
+  --pastel-orange: #fed7aa;
+  --pastel-red: #fca5a5;
+  
+  /* Light mode colors */
+  --heading-color-light: #2563eb;
+  --text-color-light: #374151;
+  --button-bg-light: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  
+  /* Dark mode colors */
+  --heading-color-dark: var(--pastel-purple);
+  --text-color-dark: var(--pastel-blue);
+  --button-bg-dark: linear-gradient(135deg, var(--pastel-purple) 0%, var(--pastel-pink) 100%);
+}
+
+/* Light mode styles */
+.light-mode {
+  --heading-color: var(--heading-color-light);
+  --text-color: var(--text-color-light);
+  --button-bg: var(--button-bg-light);
+}
+
+/* Dark mode styles (default) */
+.dark-mode,
+:root {
+  --heading-color: var(--heading-color-dark);
+  --text-color: var(--text-color-dark);
+  --button-bg: var(--button-bg-dark);
+}
+
+/* Apply theme colors */
+.theme-heading {
+  color: var(--heading-color) !important;
+}
+
+.theme-text {
+  color: var(--text-color) !important;
+}
+
+.theme-button {
+  background: var(--button-bg) !important;
+  color: white !important;
+}
+
 /* Custom Animations */
 @keyframes slideInFromLeft {
   from {
@@ -219,16 +270,17 @@ html {
 
 /* Improved button styles */
 .btn-primary {
-  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  background: var(--button-bg);
   color: white !important;
   border: none;
   transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+  background: var(--button-bg);
+  filter: brightness(1.1);
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 10px 25px rgba(196, 181, 253, 0.3);
 }
 
 /* Ensure text remains white in buttons */
@@ -237,6 +289,38 @@ html {
 .btn-primary:focus,
 .btn-primary:active {
   color: white !important;
+}
+
+/* Pastel color utilities */
+.text-pastel-purple { color: var(--pastel-purple) !important; }
+.text-pastel-pink { color: var(--pastel-pink) !important; }
+.text-pastel-blue { color: var(--pastel-blue) !important; }
+.text-pastel-green { color: var(--pastel-green) !important; }
+.text-pastel-yellow { color: var(--pastel-yellow) !important; }
+.text-pastel-teal { color: var(--pastel-teal) !important; }
+.text-pastel-orange { color: var(--pastel-orange) !important; }
+.text-pastel-red { color: var(--pastel-red) !important; }
+
+.bg-pastel-purple { background-color: var(--pastel-purple) !important; }
+.bg-pastel-pink { background-color: var(--pastel-pink) !important; }
+.bg-pastel-blue { background-color: var(--pastel-blue) !important; }
+.bg-pastel-green { background-color: var(--pastel-green) !important; }
+.bg-pastel-yellow { background-color: var(--pastel-yellow) !important; }
+.bg-pastel-teal { background-color: var(--pastel-teal) !important; }
+.bg-pastel-orange { background-color: var(--pastel-orange) !important; }
+.bg-pastel-red { background-color: var(--pastel-red) !important; }
+
+/* Gradient utilities with pastel colors */
+.bg-gradient-pastel-purple-pink {
+  background: linear-gradient(135deg, var(--pastel-purple) 0%, var(--pastel-pink) 100%);
+}
+
+.bg-gradient-pastel-blue-teal {
+  background: linear-gradient(135deg, var(--pastel-blue) 0%, var(--pastel-teal) 100%);
+}
+
+.bg-gradient-pastel-green-yellow {
+  background: linear-gradient(135deg, var(--pastel-green) 0%, var(--pastel-yellow) 100%);
 }
 
 /* Performance optimizations */
